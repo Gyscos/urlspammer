@@ -56,10 +56,10 @@ func SpamByRate(callPerMin int, queries <-chan Query, f HandlerFunc) {
 
 	for query := range queries {
 		callGroup.Add(1)
-		go func() {
+		go func(query Query) {
 			defer callGroup.Done()
 			handleUrl(query, f)
-		}()
+		}(query)
 		time.Sleep(interval)
 	}
 
